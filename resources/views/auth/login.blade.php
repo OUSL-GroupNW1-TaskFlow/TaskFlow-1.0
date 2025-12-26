@@ -1,3 +1,23 @@
+{{--
+|--------------------------------------------------------------------------
+| Login Page (Shared for ALL Roles)
+|--------------------------------------------------------------------------
+| PURPOSE:
+| - Login page for System Admin, Admin, and Agent
+| - Uses Laravel Breeze authentication
+|
+| TEAM INSTRUCTIONS:
+| - You MAY edit:
+|   - Headings, labels, button text
+|   - Spacing, colors, and Tailwind CSS classes
+| - You MUST NOT edit:
+|   - Form method or action
+|   - Input name attributes (email, password, remember)
+|   - CSRF token
+|   - Validation error components
+|--------------------------------------------------------------------------
+--}}
+
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
