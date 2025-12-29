@@ -13,7 +13,7 @@ use App\Http\Controllers\Agent\DashboardController as AgentDashboard;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 /*
@@ -22,20 +22,40 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 */
 
-Route::middleware(['auth', 'role:system_admin'])->prefix('system')->group(function () {
-    Route::get('/dashboard', [SystemDashboard::class, 'index'])
-        ->name('system.dashboard');
-});
 
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
-    Route::get('/dashboard', [AdminDashboard::class, 'index'])
-        ->name('admin.dashboard');
-});
+Route::middleware(['auth', 'role:system_admin'])
+    ->prefix('system')
+    ->name('system.')
+    ->group(function () {
 
-Route::middleware(['auth', 'role:agent'])->prefix('agent')->group(function () {
-    Route::get('/dashboard', [AgentDashboard::class, 'index'])
-        ->name('agent.dashboard');
-});
+        Route::get('/dashboard', [SystemDashboard::class, 'index'])
+            ->name('dashboard');
+    });
+
+Route::middleware(['auth', 'role:admin|system_admin'])
+    ->prefix('admin')
+    ->name('admin.')
+    ->group(function () {
+
+        Route::get('/dashboard', [AdminDashboard::class, 'index'])
+            ->name('dashboard');
+
+        // User Management (Admin + System Admin)
+        Route::get('/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])
+            ->name('users.index');
+
+        Route::post('/users', [\App\Http\Controllers\Admin\UserController::class, 'store'])
+            ->name('users.store');
+    });
+
+Route::middleware(['auth', 'role:agent'])
+    ->prefix('agent')
+    ->name('agent.')
+    ->group(function () {
+
+        Route::get('/dashboard', [AgentDashboard::class, 'index'])
+            ->name('dashboard');
+    });
 
 /*
 |--------------------------------------------------------------------------

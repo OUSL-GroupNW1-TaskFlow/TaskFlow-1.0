@@ -29,13 +29,38 @@
                 <div class="p-6 text-gray-900 dashboard-content">
 
                     {{-- TODO (TEAM): Agent UI goes here --}}
-                    <p><strong>Welcome Agent</strong></p>
 
-                    <ul class="mt-4 list-disc list-inside text-sm text-gray-700">
-                        <li>Create new project</li>
-                        <li>View my projects</li>
-                        <li>Update Kanban progress</li>
+                    <p class="text-lg font-semibold">
+                        Welcome, Agent 👋
+                    </p>
+
+                    <p class="mt-2 text-sm text-gray-600">
+                        Manage your projects and track progress from here.
+                    </p>
+
+                    <ul class="mt-6 list-disc list-inside text-sm text-gray-700 space-y-1">
+                        <li>Create new projects</li>
+                        <li>View and manage my projects</li>
+                        <li>Update Kanban board progress</li>
                     </ul>
+
+                    {{-- Future placeholders --}}
+                    <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 border rounded text-center text-sm text-gray-600">
+                            My Projects<br>
+                            <span class="text-xl font-bold">0</span>
+                        </div>
+
+                        <div class="p-4 border rounded text-center text-sm text-gray-600">
+                            Active Tasks<br>
+                            <span class="text-xl font-bold">0</span>
+                        </div>
+
+                        <div class="p-4 border rounded text-center text-sm text-gray-600">
+                            Completed Tasks<br>
+                            <span class="text-xl font-bold">0</span>
+                        </div>
+                    </div>
 
                 </div>
             </div>

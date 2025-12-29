@@ -2,8 +2,8 @@
     /**
      * Role-based dashboard routing
      * --------------------------------
-     * This determines which dashboard URL to show
-     * based on the logged-in user's role.
+     * Show correct dashboard links based on user role
+     * Expose User Management only to Admin/System Admin
      *
      * Roles:
      * - system_admin → system.dashboard
@@ -36,10 +36,31 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                        {{-- Dashboard (all roles) --}}
                     <x-nav-link :href="$dashboardRoute">
-                       {{ __('Dashboard') }}
+                         {{ __('Dashboard') }}
                     </x-nav-link>
-                </div>
+
+                          {{-- 
+                             |--------------------------------------------------------------------------
+                             | Admin / System Admin Navigation
+                             |--------------------------------------------------------------------------
+                             | PURPOSE:
+                             | - User Management is ONLY for Admin & System Admin
+                             | - Agents must never see this link
+                             |
+                             | NOTE FOR TEAM:
+                             | - UI only, permission enforcement is done via routes/middleware
+                             |--------------------------------------------------------------------------
+                           --}}
+                     @role('system_admin|admin')
+                        <x-nav-link 
+                          :href="route('admin.users.index')" 
+                          :active="request()->routeIs('admin.users.*')">
+                          {{ __('User Management') }}
+                         </x-nav-link>
+                     @endrole
+                 </div>
             </div>
 
             <!-- Settings Dropdown -->
@@ -91,9 +112,18 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="$dashboardRoute">
-               {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+             {{-- Dashboard --}}
+                <x-responsive-nav-link :href="$dashboardRoute">
+                        {{ __('Dashboard') }}
+                 </x-responsive-nav-link>
+
+                      {{-- Admin / System Admin only --}}
+                    @role('system_admin|admin')
+                        <x-responsive-nav-link 
+                            :href="route('admin.users.index')">
+                          {{ __('User Management') }}
+                         </x-responsive-nav-link>
+                    @endrole
         </div>
 
         <!-- Responsive Settings Options -->
