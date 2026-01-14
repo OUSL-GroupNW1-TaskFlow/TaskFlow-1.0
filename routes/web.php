@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SystemAdmin\DashboardController as SystemDashboard;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Agent\DashboardController as AgentDashboard;
+use App\Http\Controllers\Agent\ProjectController as AgentProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -55,6 +56,13 @@ Route::middleware(['auth', 'role:agent'])
 
         Route::get('/dashboard', [AgentDashboard::class, 'index'])
             ->name('dashboard');
+
+        // Project Management (Agent only)
+        Route::get('/projects', [AgentProjectController::class, 'index'])
+            ->name('projects.index');
+
+        Route::post('/projects', [AgentProjectController::class, 'store'])
+            ->name('projects.store');
     });
 
 /*
