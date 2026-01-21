@@ -35,15 +35,12 @@ RUN npm run build
 RUN touch /var/www/html/database.sqlite \
     && chown -R www-data:www-data /var/www/html/database.sqlite
 
-# Generate key (will be overwritten by env vars anyway)
-RUN php artisan key:generate || true
-
-# Run migrations
-RUN php artisan migrate --force || true
-
-# Storage link
-RUN php artisan storage:link || true
-
 EXPOSE 10000
 
-CMD php artisan serve --host=0.0.0.0 --port=10000
+CMD php artisan migrate --force \
+ && php artisan db:seed --force \
+ && php artisan config:clear \
+ && php artisan route:clear \
+ && php artisan view:clear \
+ && php artisan optimize:clear \
+ && php artisan serve --host=0.0.0.0 --port=10000
