@@ -35,10 +35,21 @@ RUN npm run build
 RUN touch /var/www/html/database.sqlite \
     && chown -R www-data:www-data /var/www/html/database.sqlite
 
+# Create Laravel storage directories
+RUN mkdir -p storage/framework/sessions \
+    storage/framework/cache \
+    storage/framework/views \
+    && chown -R www-data:www-data storage \
+    && chmod -R 775 storage
+
 EXPOSE 10000
 
-CMD php artisan migrate --force \
- && php artisan db:seed --force \
+CMD php artisan key:generate --force \
+ && php artisan migrate --force || true \
+ && php artisan session:table || true \
+ && php artisan cache:table || true \
+ && php artisan migrate --force || true \
+ && php artisan db:seed --force || true \
  && php artisan config:clear \
  && php artisan route:clear \
  && php artisan view:clear \
