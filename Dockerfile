@@ -35,6 +35,7 @@ EXPOSE 10000
 CMD sh -c "\
   touch /var/www/html/database.sqlite && \
   php artisan migrate --force && \
+  php artisan db:seed --force && \
   php artisan config:clear && \
   php artisan route:clear && \
   php artisan view:clear && \
