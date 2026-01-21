@@ -65,4 +65,12 @@ class Project extends Model
     {
         return $this->belongsTo(User::class, 'reviewed_by');
     }
+
+    /**
+     * Get the tasks for this project.
+     */
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

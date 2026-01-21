@@ -11,12 +11,6 @@
 | - Expected Start Date
 | - Expected End Date
 | - Priority
-|
-| TODO (UI TEAM):
-| - Improve modal styling
-| - Add validation messages
-| - Add animations
-|
 --}}
 
 <div
