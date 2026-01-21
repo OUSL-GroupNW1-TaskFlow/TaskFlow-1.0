@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Set working directory
-WORKDIR /var/www
+WORKDIR /var/www/html
 
 # Copy app files
 COPY . .
@@ -32,7 +32,8 @@ RUN npm install
 RUN npm run build
 
 # Create SQLite DB
-RUN touch /tmp/database.sqlite
+RUN touch /var/www/html/database.sqlite \
+    && chown -R www-data:www-data /var/www/html/database.sqlite
 
 # Generate key (will be overwritten by env vars anyway)
 RUN php artisan key:generate || true
