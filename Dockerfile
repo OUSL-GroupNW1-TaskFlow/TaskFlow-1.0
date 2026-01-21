@@ -18,40 +18,26 @@ RUN apt-get update && apt-get install -y \
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Set working directory
 WORKDIR /var/www/html
 
-# Copy app files
 COPY . .
 
-# Install PHP dependencies
 RUN composer install --no-dev --optimize-autoloader
 
-# Install Node dependencies and build assets
-RUN npm install
-RUN npm run build
+RUN npm install && npm run build
 
-# Create SQLite DB
-RUN touch /var/www/html/database.sqlite \
-    && chown -R www-data:www-data /var/www/html/database.sqlite
-
-# Create Laravel storage directories
-RUN mkdir -p storage/framework/sessions \
-    storage/framework/cache \
-    storage/framework/views \
-    && chown -R www-data:www-data storage \
-    && chmod -R 775 storage
+# Laravel permissions
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 775 storage bootstrap/cache
 
 EXPOSE 10000
 
-CMD php artisan key:generate --force \
- && php artisan migrate --force || true \
- && php artisan session:table || true \
- && php artisan cache:table || true \
- && php artisan migrate --force || true \
- && php artisan db:seed --force || true \
- && php artisan config:clear \
- && php artisan route:clear \
- && php artisan view:clear \
- && php artisan optimize:clear \
- && php artisan serve --host=0.0.0.0 --port=10000
+CMD sh -c "\
+  touch /var/www/html/database.sqlite && \
+  php artisan migrate --force && \
+  php artisan config:clear && \
+  php artisan route:clear && \
+  php artisan view:clear && \
+  php artisan optimize:clear && \
+  php artisan serve --host=0.0.0.0 --port=10000 \
+"
