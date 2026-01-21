@@ -26,8 +26,11 @@ RUN composer install --no-dev --optimize-autoloader
 
 RUN npm install && npm run build
 
-# Laravel permissions
-RUN chown -R www-data:www-data /var/www/html \
+# Laravel permissions + session dirs
+RUN mkdir -p storage/framework/sessions \
+    storage/framework/cache \
+    storage/framework/views \
+    && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 storage bootstrap/cache
 
 EXPOSE 10000
@@ -37,6 +40,7 @@ CMD sh -c "\
   php artisan migrate --force && \
   php artisan db:seed --force && \
   php artisan config:clear && \
+  php artisan cache:clear && \
   php artisan route:clear && \
   php artisan view:clear && \
   php artisan optimize:clear && \
