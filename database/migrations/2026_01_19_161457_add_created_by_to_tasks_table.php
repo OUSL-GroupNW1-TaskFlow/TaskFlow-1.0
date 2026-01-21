@@ -12,10 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->foreignId('created_by')
-                  ->after('assigned_to')
-                  ->constrained('users')
-                  ->cascadeOnDelete();
+            if (!Schema::hasColumn('tasks', 'created_by')) {
+                $table->foreignId('created_by')
+                    ->after('assigned_to')
+                    ->constrained('users')
+                    ->cascadeOnDelete();
+            }
         });
     }
 

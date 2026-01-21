@@ -29,10 +29,6 @@ return new class extends Migration
                   ->constrained('users')
                   ->nullOnDelete();
 
-            $table->foreignId('created_by')
-                ->constrained('users')
-                ->cascadeOnDelete();
-
             $table->timestamps();
         });
     }
