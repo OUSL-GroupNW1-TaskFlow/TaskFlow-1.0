@@ -4,9 +4,6 @@
 |--------------------------------------------------------------------------
 | PURPOSE:
 | - Allow agent to edit their own project
-|
-| TEAM INSTRUCTIONS:
-| - Keep structure consistent with agent.projects.index
 |-------------------------------------------------------------------------- 
 --}}
 
