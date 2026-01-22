@@ -27,6 +27,6 @@ class KanbanController extends Controller
         $inProgress = $project->tasks()->with('comments.admin')->where('status', 'in_progress')->orderBy('position')->get();
         $done = $project->tasks()->with('comments.admin')->where('status', 'done')->orderBy('position')->get();
 
-        return view('agent.Projects.Kanban.show', compact('project', 'todo', 'inProgress', 'done'));
+        return view('agent.projects.Kanban.show', compact('project', 'todo', 'inProgress', 'done'));
     }
 }
