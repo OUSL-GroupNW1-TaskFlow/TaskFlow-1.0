@@ -32,6 +32,7 @@ RUN mkdir -p storage/framework/sessions \
     storage/framework/views \
     && chown -R www-data:www-data /var/www/html \
     && chmod -R 775 storage bootstrap/cache
+    && rm -rf storage/framework/views/*
 
 EXPOSE 10000
 
